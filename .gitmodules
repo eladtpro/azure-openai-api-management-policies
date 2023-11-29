@@ -1,0 +1,4 @@
+[submodule "apim-sweden.scm.azure-api.net"]
+	path = apim-sweden.scm.azure-api.net
+	url = https://apim-sweden.scm.azure-api.net
+	branch = main
