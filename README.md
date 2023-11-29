@@ -29,6 +29,15 @@
 In this repository you will find the following files:
 [apim-sweden.scm.azure-api.net](apim-sweden.scm.azure-api.net) sub-module contains the API Management configuration files.
 
+
+APIM configuration files are stored in the [apim-sweden.scm.azure-api.net](apim-sweden.scm.azure-api.net) sub-module.
+
+
+in the image that describes the repository structure, we can see it corresponds to the apim entities:  
+apis, backends, products, policies, etc.
+
+![APIM Config](assets/APIM-repo-config.png)
+
 ## KQL Query: Prompt usage monitoring
 
 
