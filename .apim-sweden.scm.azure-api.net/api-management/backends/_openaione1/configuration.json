@@ -1,0 +1,26 @@
+{
+  "id": "/backends/openaione1",
+  "title": null,
+  "url": "https://openaione.openai.azure.com/openai",
+  "protocol": "http",
+  "credentials": {
+    "query": {
+      "api-version": [
+        "2023-07-01-preview"
+      ]
+    },
+    "header": {
+      "api-key": [
+        "{{OpenAI-Key}}"
+      ],
+      "Content-Type": [
+        "application/json"
+      ]
+    }
+  },
+  "tls": {
+    "validateCertificateChain": false,
+    "validateCertificateName": false
+  },
+  "__GitModuleVersion": 17
+}

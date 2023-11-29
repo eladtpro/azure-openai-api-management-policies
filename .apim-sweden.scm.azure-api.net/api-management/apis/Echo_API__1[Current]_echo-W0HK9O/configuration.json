@@ -1,0 +1,201 @@
+{
+  "id": "/apis/echo-api",
+  "name": "Echo API",
+  "apiRevision": "1",
+  "$ref-description": null,
+  "subscriptionRequired": false,
+  "serviceUrl": "http://echoapi.cloudapp.net/api",
+  "backendId": null,
+  "path": "echo",
+  "protocols": [
+    "https"
+  ],
+  "authenticationSettings": {
+    "oAuth2": null,
+    "openid": null
+  },
+  "subscriptionKeyParameterNames": {
+    "header": "Ocp-Apim-Subscription-Key",
+    "query": "subscription-key"
+  },
+  "isCurrent": true,
+  "operations": [
+    {
+      "id": "/apis/echo-api/operations/create-resource",
+      "name": "Create resource",
+      "method": "POST",
+      "urlTemplate": "/resource",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/POST__resource_echo-apicreS3Q9US.description.html",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": [
+          {
+            "contentType": "application/json",
+            "examples": {
+              "default": {
+                "$ref-value": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/POST__resource_echo-apicreS3Q9US.request.application_json_vehicleT1G5DTUK.default.html"
+              }
+            },
+            "generatedSample": "{\r\n\t\"vehicleType\": \"train\",\r\n\t\"maxSpeed\": 125,\r\n\t\"avgSpeed\": 90,\r\n\t\"speedUnit\": \"mph\"\r\n}",
+            "sample": "{\r\n\t\"vehicleType\": \"train\",\r\n\t\"maxSpeed\": 125,\r\n\t\"avgSpeed\": 90,\r\n\t\"speedUnit\": \"mph\"\r\n}"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null,
+      "$ref-policy": "api-management/policies/apis/Echo_API__1[Current]_echo-W0HK9O/operations/POST__resource_echo-apicreS3Q9US.xml"
+    },
+    {
+      "id": "/apis/echo-api/operations/modify-resource",
+      "name": "Modify Resource",
+      "method": "PUT",
+      "urlTemplate": "/resource",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/PUT__resource_echo-apimodiFGR8IO.description.html",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null
+    },
+    {
+      "id": "/apis/echo-api/operations/remove-resource",
+      "name": "Remove resource",
+      "method": "DELETE",
+      "urlTemplate": "/resource",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/DELETE__resource_echo-api1IV0STP.description.html",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null
+    },
+    {
+      "id": "/apis/echo-api/operations/retrieve-header-only",
+      "name": "Retrieve header only",
+      "method": "HEAD",
+      "urlTemplate": "/resource",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/HEAD__resource_echo-apire1EO3Z1C.description.html",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null,
+      "$ref-policy": "api-management/policies/apis/Echo_API__1[Current]_echo-W0HK9O/operations/HEAD__resource_echo-apire1EO3Z1C.xml"
+    },
+    {
+      "id": "/apis/echo-api/operations/retrieve-resource",
+      "name": "Retrieve resource",
+      "method": "GET",
+      "urlTemplate": "/resource",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/GET__resource_echo-apiret1T19FBO.description.html",
+      "request": {
+        "queryParameters": [
+          {
+            "name": "param1",
+            "description": "A sample parameter that is required and has a default value of \"sample\".",
+            "type": "string",
+            "defaultValue": "sample",
+            "required": true,
+            "values": [
+              "sample"
+            ]
+          },
+          {
+            "name": "param2",
+            "description": "Another sample parameter, set to not required.",
+            "type": "number",
+            "values": []
+          }
+        ],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/GET__resource_echo-apiret1T19FBO.response.200.description.html",
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null
+    },
+    {
+      "id": "/apis/echo-api/operations/retrieve-resource-cached",
+      "name": "Retrieve resource (cached)",
+      "method": "GET",
+      "urlTemplate": "/resource-cached",
+      "templateParameters": [],
+      "$ref-description": "api-management/apis/Echo_API__1[Current]_echo-W0HK9O/operations/GET__resource-cached_echo1YEYVV6.description.html",
+      "request": {
+        "queryParameters": [
+          {
+            "name": "param1",
+            "description": "A sample parameter that is required and has a default value of \"sample\".",
+            "type": "string",
+            "defaultValue": "sample",
+            "required": true,
+            "values": [
+              "sample"
+            ]
+          },
+          {
+            "name": "param2",
+            "description": "Another sample parameter, set to not required.",
+            "type": "string",
+            "values": []
+          }
+        ],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [
+        {
+          "statusCode": 200,
+          "representations": [],
+          "headers": []
+        }
+      ],
+      "policies": null,
+      "$ref-policy": "api-management/policies/apis/Echo_API__1[Current]_echo-W0HK9O/operations/GET__resource-cached_echo1YEYVV6.xml"
+    }
+  ],
+  "apiSchemas": [],
+  "__GitModuleVersion": 17
+}

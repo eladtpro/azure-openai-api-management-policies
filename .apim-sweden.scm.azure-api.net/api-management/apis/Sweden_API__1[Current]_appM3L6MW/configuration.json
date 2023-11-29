@@ -1,0 +1,147 @@
+{
+  "id": "/apis/app-sweden-python",
+  "name": "Sweden API",
+  "apiRevision": "1",
+  "$ref-description": "",
+  "subscriptionRequired": false,
+  "serviceUrl": null,
+  "backendId": null,
+  "path": "api",
+  "protocols": [
+    "https"
+  ],
+  "authenticationSettings": {
+    "oAuth2": null,
+    "openid": null
+  },
+  "subscriptionKeyParameterNames": {
+    "header": "Ocp-Apim-Subscription-Key",
+    "query": "subscription-key"
+  },
+  "isCurrent": true,
+  "operations": [
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f01a984841e2f3be5",
+      "name": "app-sweden-python_DELETE",
+      "method": "DELETE",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f2a3ac03f45a4e87b",
+      "name": "app-sweden-python_GET",
+      "method": "GET",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85fbc57cf3b18162273",
+      "name": "app-sweden-python_HEAD",
+      "method": "HEAD",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f0190a96bdaa61571",
+      "name": "app-sweden-python_OPTIONS",
+      "method": "OPTIONS",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f3e0c49dbe70e93cc",
+      "name": "app-sweden-python_PATCH",
+      "method": "PATCH",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f794b3eae5d0f859f",
+      "name": "app-sweden-python_POST",
+      "method": "POST",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f5e2c99a38a70b012",
+      "name": "app-sweden-python_PUT",
+      "method": "PUT",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    },
+    {
+      "id": "/apis/app-sweden-python/operations/647da85f1cb2f98981f3fc55",
+      "name": "app-sweden-python_TRACE",
+      "method": "TRACE",
+      "urlTemplate": "/*",
+      "templateParameters": [],
+      "$ref-description": "",
+      "request": {
+        "queryParameters": [],
+        "headers": [],
+        "representations": []
+      },
+      "responses": [],
+      "policies": null
+    }
+  ],
+  "apiSchemas": [],
+  "$ref-policy": "api-management/policies/apis/Sweden_API__1[Current]_appM3L6MW.xml",
+  "__GitModuleVersion": 17
+}
