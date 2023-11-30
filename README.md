@@ -1,5 +1,6 @@
 ![Flow](assets/OpenAI.Restrict-Round-Robin.png)
 
+
 # Azure OpenAI logging implementation with Azure API Management.
 
 
