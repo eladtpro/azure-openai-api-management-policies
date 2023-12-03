@@ -11,7 +11,7 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 
 [Azure API Management (APIM) Policies](#policies)
-
+[Workflow](#workflow)
 
 
 ## Prerequisites
@@ -22,9 +22,8 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 * [Create an Azure API Management instance](https://learn.microsoft.com/en-us/azure/api-management/get-started-create-service-instance).
 
 
-
 ## <a name="policies"></a>Azure API Management (APIM) Policies  
-> [Azure API Management (APIM)](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) is a hybrid, multicloud management platform for APIs across all environments. As a platform-as-a-service, API Management supports the complete API lifecycle.  
+>  [Azure API Management (APIM)](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) is a hybrid, multicloud management platform for APIs across all environments. As a platform-as-a-service, API Management supports the complete API lifecycle.  
 
 Azure API Management uses policies to modify API behavior by running sequential statements on the request or response.  
 Some of the relevant policies for OpenAI include:
@@ -42,7 +41,7 @@ The policies configuration for the below image can be found in the Azure API Man
 ![APIM Policies](assets/apim-policies.png)
 
 
-## Workflow
+## <a name="workflow"> Workflow
 1. Client applications access Azure OpenAI endpoints to perform text generation (completions) and model training (fine-tuning).
 2. Azure Application Gateway provides a single point of entry to Azure OpenAI models and provides load balancing for APIs.
 
