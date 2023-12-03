@@ -36,7 +36,7 @@ Some of the relevant policies for OpenAI include:
 
 Other policies are available out of the box. Policies are applied inside the gateway between the API consumer and the managed API, allowing changes to both the inbound request and outbound response. For a complete list, see [API Management policy reference](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies).  
 
-The policies configuration for the below image can be found in the Azure API Management configuration repository [here](apim-sweden.scm.azure-api.net/api-management/policies/apis/Open_AI__1[Current]_open-166H7PW/operations/POST__{_path}_open-aipost-query.xml):  
+The policies configuration for the below image can be found in the Azure API Management configuration repository [here](/apim-sweden.scm.azure-api.net/api-management/policies/apis/Open_AI__1[Current]_open-166H7PW/operations/POST__{_path}_open-aipost-query.xml):  
 
 ![APIM Policies](assets/apim-policies.png)
 
@@ -60,6 +60,7 @@ The policies configuration for the below image can be found in the Azure API Man
 
 
 
+## set backend service
 
 
 
