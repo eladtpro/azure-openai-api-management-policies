@@ -1,7 +1,46 @@
 ![Flow](assets/OpenAI.Restrict-Round-Robin.png)
 
 
-# Azure OpenAI logging implementation with Azure API Management.
+# Azure OpenAI: Managing usage and capasity with Azure API Management.
+
+This article aims to provide guidance for organizations that have concerns when using OpenAI services.  
+These concerns may include addressing auditing prompts and responses, capacity planning and limitations, error handling, and retry capabilities.  
+In addition, organizations can increase their usage by creating an OpenAI instance pool and sharing resources with other consumers.  
+  
+To achieve all of the above and more, we will be using Azure OpenAI services via Azure API Management (APIM). 
+
+
+[Azure API Management (APIM) Policies](#policies)
+
+
+
+## Prerequisites
+* If you don't have an [Azure subscription](https://learn.microsoft.com/en-us/azure/guides/developer/azure-developer-guide#understanding-accounts-subscriptions-and-billing), create an [Azure free account](https://azure.microsoft.com/free/?ref=microsoft.com&utm_source=microsoft.com&utm_medium=docs&utm_campaign=visualstudio) before you begin.  
+* The Azure CLI version is 2.47.0 or later. Run az --version to find the version, and run az upgrade to upgrade the version. If you need to install or upgrade, see [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
+* If you have multiple Azure subscriptions, select the appropriate subscription ID in which the resources should be billed using the [az account](https://learn.microsoft.com/en-us/cli/azure/account) command.
+* Bash terminal
+
+
+
+## <a name="policies"></a>Azure API Management (APIM) Policies
+
+Azure API Management uses policies to modify API behavior by running sequential statements on the request or response.  
+Some of the relevant policies for OpenAI include:
+* ***rate-limit***: The rate-limit policy prevents API usage spikes by limiting the call rate to a specified number per period.
+* ***validate-jwt***: The validate-jwt policy enforces the existence and validity of a supported JSON web token (JWT)
+* ***retry***: The retry policy executes its child policies once and then retries their execution until the retry condition is met.
+* ***cache-lookup-value***: The cache-lookup-value policy performs cache lookup by key and return a cached value. 
+* ***set-backend-service***: edirect an incoming request to a different backend than the one specified in the API settings for that operation.
+
+Other policies are available out of the box. Policies are applied inside the gateway between the API consumer and the managed API, allowing changes to both the inbound request and outbound response. For a complete list, see [API Management policy reference](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies).
+
+The policies configuration for the below image can be found in the Azure API Management configuration repository [here](apim-sweden.scm.azure-api.net/api-management/policies/apis/Open_AI__1[Current]_open-166H7PW/operations/POST__{_path}_open-aipost-query.xml):
+
+![APIM Policies](assets/apim-policies.png)
+
+
+
+
 
 
 
@@ -23,6 +62,10 @@
 4. API Management connects to all Azure resources via Azure Private Link. This configuration provides enhanced security for all traffic via private endpoints and contains traffic in the private network.
 
 5. Multiple Azure OpenAI instances enable scale-out of API usage to ensure high availability and disaster recovery for the service.
+
+
+
+
 
 
 ## GitHub API Management configuration repository
