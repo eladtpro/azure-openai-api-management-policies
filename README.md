@@ -1,7 +1,7 @@
 ![Flow](assets/OpenAI.Restrict-Round-Robin.png)
 
 
-# Azure OpenAI: Managing usage and capasity with Azure API Management.
+# Azure OpenAI: Usage and capasity management with Azure API Management.
 
 This article aims to provide guidance for organizations that have concerns when using OpenAI services.  
 These concerns may include addressing auditing prompts and responses, capacity planning and limitations, error handling, and retry capabilities.  
@@ -18,32 +18,28 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 * If you don't have an [Azure subscription](https://learn.microsoft.com/en-us/azure/guides/developer/azure-developer-guide#understanding-accounts-subscriptions-and-billing), create an [Azure free account](https://azure.microsoft.com/free/?ref=microsoft.com&utm_source=microsoft.com&utm_medium=docs&utm_campaign=visualstudio) before you begin.  
 * The Azure CLI version is 2.47.0 or later. Run az --version to find the version, and run az upgrade to upgrade the version. If you need to install or upgrade, see [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
 * If you have multiple Azure subscriptions, select the appropriate subscription ID in which the resources should be billed using the [az account](https://learn.microsoft.com/en-us/cli/azure/account) command.
-* Bash terminal
+* Understand [Azure API Management terminology](https://learn.microsoft.com/en-us/azure/api-management/api-management-terminology).
+* [Create an Azure API Management instance](https://learn.microsoft.com/en-us/azure/api-management/get-started-create-service-instance).
 
 
 
-## <a name="policies"></a>Azure API Management (APIM) Policies
+## <a name="policies"></a>Azure API Management (APIM) Policies  
+> [Azure API Management (APIM)](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) is a hybrid, multicloud management platform for APIs across all environments. As a platform-as-a-service, API Management supports the complete API lifecycle.  
 
 Azure API Management uses policies to modify API behavior by running sequential statements on the request or response.  
 Some of the relevant policies for OpenAI include:
-* ***rate-limit***: The rate-limit policy prevents API usage spikes by limiting the call rate to a specified number per period.
-* ***validate-jwt***: The validate-jwt policy enforces the existence and validity of a supported JSON web token (JWT)
-* ***retry***: The retry policy executes its child policies once and then retries their execution until the retry condition is met.
-* ***cache-lookup-value***: The cache-lookup-value policy performs cache lookup by key and return a cached value. 
-* ***set-backend-service***: edirect an incoming request to a different backend than the one specified in the API settings for that operation.
+* [*rate-limit*](https://learn.microsoft.com/en-us/azure/api-management/rate-limit-policy): The rate-limit policy prevents API usage spikes by limiting the call rate to a specified number per period.  
+* [*validate-jwt*](https://learn.microsoft.com/en-us/azure/api-management/validate-jwt-policy): The validate-jwt policy enforces the existence and validity of a supported JSON web token (JWT).  
+* [*set-header*](https://learn.microsoft.com/en-us/azure/api-management/set-header-policy): The set-header policy sets the value of a header or adds a new header to the request or response, e.g OpenAI api-key header.
+* [*retry*](https://learn.microsoft.com/en-us/azure/api-management/retry-policy): The retry policy executes its child policies once and then retries their execution until the retry condition is met.
+* [*cache-lookup-value*](https://learn.microsoft.com/en-us/azure/api-management/cache-lookup-value-policy): The cache-lookup-value policy performs cache lookup by key and return a cached value.  
+* [*set-backend-service*](https://learn.microsoft.com/en-us/azure/api-management/set-backend-service-policy): edirect an incoming request to a different backend than the one specified in the API settings for that operation.  
 
-Other policies are available out of the box. Policies are applied inside the gateway between the API consumer and the managed API, allowing changes to both the inbound request and outbound response. For a complete list, see [API Management policy reference](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies).
+Other policies are available out of the box. Policies are applied inside the gateway between the API consumer and the managed API, allowing changes to both the inbound request and outbound response. For a complete list, see [API Management policy reference](https://learn.microsoft.com/en-us/azure/api-management/api-management-policies).  
 
-The policies configuration for the below image can be found in the Azure API Management configuration repository [here](apim-sweden.scm.azure-api.net/api-management/policies/apis/Open_AI__1[Current]_open-166H7PW/operations/POST__{_path}_open-aipost-query.xml):
+The policies configuration for the below image can be found in the Azure API Management configuration repository [here](apim-sweden.scm.azure-api.net/api-management/policies/apis/Open_AI__1[Current]_open-166H7PW/operations/POST__{_path}_open-aipost-query.xml):  
 
 ![APIM Policies](assets/apim-policies.png)
-
-
-
-
-
-
-
 
 
 ## Workflow
