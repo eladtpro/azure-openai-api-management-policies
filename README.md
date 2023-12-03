@@ -10,7 +10,7 @@ In addition, organizations can increase their usage by creating an OpenAI instan
 To achieve all of the above and more, we will be using Azure OpenAI services via Azure API Management (APIM). 
 
 
-[Azure API Management (APIM) Policies](#policies)
+[Azure API Management (APIM) Policies](#policies)  
 [Workflow](#workflow)
 
 
