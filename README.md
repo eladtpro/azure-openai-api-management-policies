@@ -10,8 +10,8 @@ In addition, organizations can increase their usage by creating an OpenAI instan
 To achieve all of the above and more, we will be using Azure OpenAI services via Azure API Management (APIM). 
 
 ###### Preps
-[Prerequisites](#prerequisites)
-[Workflow](#workflow) 
+[Prerequisites](#prerequisites)  
+[Workflow](#workflow)  
 ###### Setting up Azure API Management (APIM) for OpenAI 
 [Setup: Azure API Management Key Vault integration](#keyvault)  
 [Setup: Azure API Management Backend services](#policies)  
