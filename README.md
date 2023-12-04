@@ -59,7 +59,6 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 ### <a name="keyvault"></a>Setup: Azure API Management Key Vault integration
 
-###### ToDo:
 * [ ] If no Key Vault exists, create a new API management integrated Key Vault:  
 [Use managed identities in Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-use-managed-service-identity)
 * [ ] Navigate to API Management service > APIs > Named values > "+Add"
@@ -76,7 +75,6 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 Backends are the API Management representation of the backend services that API Management proxies. this way we can configure the Azure OpenAI services as backends. Each backend configuration will contain refernce to api-key saved in Azure Key Vault
 
-###### ToDo:  
 * [ ] Navigate to API Management service > APIs > Backends > "+Add"
 * [ ] Enter OpenAI service url with the "/openai" suffix, e.g "https://openaitwo.openai.azure.com/openai"
 * [ ] Add OpenAI api-key header if needed, in case not using managed identities
@@ -88,8 +86,6 @@ Backends are the API Management representation of the backend services that API 
 
 > For the API to be flexable for any URL path route, we are setting the Frontend URL to be a `/{*path}` like so.
 > ![APIM Frontend URL](assets/frontend-wildcard.png)
-
-###### ToDo:  
 
 **Option I**: Configure policies manually using Azure Portal
 * [ ] Navigate to API Management service > APIs > "+Add API"
@@ -134,7 +130,7 @@ Other policies are available out of the box. Policies are applied inside the gat
 
 ### <a name="logging"></a>Setup: Azure API Management logging settings
 For us to be able to collect usage data we need to enable logging for the API Management service.
-###### ToDo:
+
 * [ ] Navigate to API Management service > APIs > Your API > Settings
 * [ ] Scroll down to "Diagnostics logs" and select "Azure Monitor"
 * [ ] Check the Backend Request and the Frontend Request checkboxes 
@@ -187,8 +183,6 @@ We generated in Postman two identical requests, one will go through the API Mana
 
 You can import the configuration from [/postman/azure-open-ai.postman_collection.json](/postman/azure-open-ai.postman_collection.json)
 
-
-###### ToDo:
 * [ ] Open the imported collection "azure-open-ai"
 * [ ] Navigate to the variables tab
 * [ ] Set the "openai-api-key" variable to the openAI service api-key
@@ -252,7 +246,6 @@ apis, backends, products, policies, etc.
 
 To clone a repository, in addition to the URL to your repository, your need a username and a password.
 
-###### ToDo:  
 * [ ] On the **Repository** page, select **Access credentials** near the top of the page.
 * [ ] Note the username provided on the **Access credentials** page.
 * [ ] To generate a password, first ensure that the **Expiry** is set to the desired expiration date and time, and then select **Generate**.
