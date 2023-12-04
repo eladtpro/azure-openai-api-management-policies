@@ -19,12 +19,12 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [Setup: Azure API Management Backend services](#policies)  
 [Setup: Azure API Management API with policies](#policies)  
 [Setup: Azure API Management logging settings](#logging)  
-[API Management configuration git repository](#github)  
 [Pricing and cost savings](#pricing)
 ###### Deployment & Testing
-[Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)
-[Testing with Postman](#postman)
-[DevOps: API Management configuration deployment](#devops)
+[Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)  
+[Testing with Postman](#postman)  
+[DevOps: API Management configuration deployment](#devops)  
+[API Management configuration git repository](#github)  
 
 
 ## <a name="workflow"></a>Prerequisites
