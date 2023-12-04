@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "1269c34b-ab44-49b2-8d6b-18e21456b5db",
+		"name": "azure-open-ai",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6576523"
+	},
+	"item": [
+		{
+			"name": "https://openaione.openai.azure.com/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api-key",
+						"value": "{{openai-api-key}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": \"ai assistens\",\n      \"name\": \"bla\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"stream\": false,\n  \"max_tokens\": 5,\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0,\n  \"logit_bias\": {}\n}"
+				},
+				"url": {
+					"raw": "https://openaione.openai.azure.com/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview",
+					"protocol": "https",
+					"host": [
+						"openaione",
+						"openai",
+						"azure",
+						"com"
+					],
+					"path": [
+						"openai",
+						"deployments",
+						"gpt-35",
+						"chat",
+						"completions"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2023-07-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://apim-sweden.azure-api.net/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api-key",
+						"value": "{{apim-subscription-key}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Trace",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messages\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": \"ai assistens\",\n      \"name\": \"blabla\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"stream\": false,\n  \"max_tokens\": 5,\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0,\n  \"logit_bias\": {}\n}"
+				},
+				"url": {
+					"raw": "https://apim-sweden.azure-api.net/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview",
+					"protocol": "https",
+					"host": [
+						"apim-sweden",
+						"azure-api",
+						"net"
+					],
+					"path": [
+						"openai",
+						"deployments",
+						"gpt-35",
+						"chat",
+						"completions"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2023-07-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "openai-api-key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "apim-subscription-key",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
