@@ -18,8 +18,7 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [Setup: Azure API Management API with policies](#policies)  
 [Setup: Azure API Management logging settings](#logging)
 [API Management configuration git repository](#github)  
-[Setting backend OpenAI services](#backend)
-###### Testing
+###### Deployment & Testing
 
 
 
@@ -70,7 +69,7 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 Backends are the API Management representation of the backend services that API Management proxies. this way we can configure the Azure OpenAI services as backends. Each backend configuration will contain refernce to api-key saved in Azure Key Vault
 
-ToDo:  
+###### ToDo:  
 * [ ] Navigate to API Management service > APIs > Backends > "+Add"
 * [ ] Enter OpenAI service url with the "/openai" suffix, e.g "https://openaitwo.openai.azure.com/openai"
 * [ ] Add OpenAI api-key header if needed, in case not using managed identities
@@ -80,9 +79,10 @@ ToDo:
 
 ### <a name="policies"></a>Setup: Azure API Management policies  
 
-###### ToDo:
-> For the API to be flexable for any URL path route we are setting the Frontend URL to be a `/{*path}` like so.
+> For the API to be flexable for any URL path route, we are setting the Frontend URL to be a `/{*path}` like so.
 > ![APIM Frontend URL](assets/frontend-wildcard.png)
+
+###### ToDo:  
 
 **Option I**: Configure policies manually using Azure Portal
 * [ ] Navigate to API Management service > APIs > "+Add API"
