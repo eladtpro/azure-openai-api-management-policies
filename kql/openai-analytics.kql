@@ -1,0 +1,11 @@
+ApiManagementGatewayLogs
+| where OperationId == 'post-query' //completions_create'
+| extend response = parse_json(ResponseBody)
+| extend model = tostring(response.model)
+| extend user = tostring(response.subcription.Subscription.id)
+| extend prompt_tokens = toint(response.usage.prompt_tokens)
+| extend completion_tokens = toint(response.usage.completion_tokens)
+| extend total_tokens = toint(response.usage.total_tokens)
+| summarize total_duration = sum(TotalTime), total_prompt_tokens = sum(prompt_tokens), total_completion_tokens = sum(completion_tokens), total_all_tokens = sum(total_tokens)
+    by model
+| render piechart 

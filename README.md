@@ -1,8 +1,8 @@
 ![Flow](assets/OpenAI.Restrict-Round-Robin.png)
 
 
-# OpenAI usage management with Azure API Management (APIM)
-
+<!-- # OpenAI usage management with Azure API Management (APIM) -->
+# How to use Azure API Management (APIM) for usage management of OpenAI services
 This article aims to provide guidance for organizations that have concerns when using OpenAI services.  
 These concerns may include addressing auditing prompts and responses, capacity planning and limitations, error handling, and retry capabilities.  
 In addition, organizations can increase their usage by creating an OpenAI instance pool and sharing resources with other consumers.  
@@ -19,12 +19,14 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [Setup: Azure API Management Backend services](#policies)  
 [Setup: Azure API Management API with policies](#policies)  
 [Setup: Azure API Management logging settings](#logging)  
-[Pricing and cost savings](#pricing)
 ###### Deployment & Testing
 [Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)  
 [Testing with Postman](#postman)  
 [DevOps: API Management configuration deployment](#devops)  
 [API Management configuration git repository](#github)  
+###### Misc
+[Pricing and cost savings](#pricing)
+[Further reading](#further)
 
 
 ## <a name="workflow"></a>Prerequisites
@@ -147,34 +149,39 @@ For us to be able to collect usage data we need to enable logging for the API Ma
 
 
 
-#### Query usage analytics
-
-
-
-```
-ApiManagementGatewayLogs
-| where OperationId == 'post-query' //completions_create'
-| extend model = tostring(parse_json(BackendResponseBody)['model'])
-| extend prompt_tokens = parse_json(parse_json(BackendResponseBody)['usage'])['prompt_tokens']
-| extend completion_tokens = parse_json(parse_json(BackendResponseBody)['usage'])['completion_tokens']
-| extend total_tokens = parse_json(parse_json(BackendResponseBody)['usage'])['total_tokens']
-| extend request_messages = substring(parse_json(parse_json(BackendRequestBody)['messages'])[0], 0, 100)
-| extend response_choices = substring(parse_json(parse_json(BackendResponseBody)['choices'])[0], 0, 100)
-| extend requestBody = parse_json(BackendRequestBody)
-| extend responseBody = parse_json(BackendResponseBody)
-```
-
-
 #### Query prompt details
 
 ```
 ApiManagementGatewayLogs
-| where OperationId == 'completions_create'
-| extend model = tostring(parse_json(BackendResponseBody)['model'])
-| extend prompttokens = parse_json(parse_json(BackendResponseBody)['usage'])['prompt_tokens']
-| extend prompttext = substring(parse_json(parse_json(BackendResponseBody)['choices'])[0], 0, 100)
+| where OperationId == 'post-query' //completions_create'
+| extend model = tostring(parse_json(ResponseBody)['model'])
+| extend prompt_tokens = parse_json(parse_json(ResponseBody)['usage'])['prompt_tokens']
+| extend completion_tokens = parse_json(parse_json(ResponseBody)['usage'])['completion_tokens']
+| extend total_tokens = parse_json(parse_json(ResponseBody)['usage'])['total_tokens']
+| extend request_messages = substring(parse_json(parse_json(BackendRequestBody)['messages'])[0], 0, 100)
+| extend response_choices = substring(parse_json(parse_json(ResponseBody)['choices'])[0], 0, 100)
+```
+##### Output
+
+![Prompt Details](assets/prompt-details.png)
+
+#### Query usage analytics
+
+```
+ApiManagementGatewayLogs
+| where OperationId == 'post-query' //completions_create'
+| extend response = parse_json(ResponseBody)
+| extend model = tostring(response.model)
+| extend user = tostring(response.subcription.Subscription.id)
+| extend prompt_tokens = toint(response.usage.prompt_tokens)
+| extend completion_tokens = toint(response.usage.completion_tokens)
+| extend total_tokens = toint(response.usage.total_tokens)
+| summarize total_duration = sum(TotalTime), total_prompt_tokens = sum(prompt_tokens), total_completion_tokens = sum(completion_tokens), total_all_tokens = sum(total_tokens)
+    by model
+| render piechart 
 ```
 
+![Usage Analytics](assets/kql-analytics.png)
 
 ### <a name="postman"></a>Testing with Postman
 
@@ -297,3 +304,33 @@ git checkout <branch_name>
 ![APIM Config](assets/api-management-git-configure.png)
 
 [Terrafrom - Azure API Management](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management)  
+
+## <a name="further"></a>Further reading
+
+#### Azure API Management Service
+
+[How to save and configure your API Management service configuration using Git](https://learn.microsoft.com/en-us/azure/api-management/api-management-configuration-repository-git#deploy-service-configuration-changes-to-the-api-management-service-instance)  
+<sub>Each API Management service instance maintains a configuration database that contains information about the configuration and metadata for the service instance. Changes can be made to the service instance by changing a setting in the Azure portal, using Azure tools such as Azure PowerShell or the Azure CLI, or making a REST API call. In addition to these methods, you can manage your service instance configuration using Git.</sub>
+
+[Policies in Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-policies)  
+<sub>In Azure API Management, API publishers can change API behavior through configuration using policies. Policies are a collection of statements that are run sequentially on the request or response of an API</sub>
+
+[API Management policy expressions](https://learn.microsoft.com/en-us/azure/api-management/api-management-policy-expressions)  
+<sub>This article discusses policy expressions syntax in C# Each expression has access to the implicitly provided context variable and an allowed subset of .NET Framework types.</sub>
+
+[Tutorial: Import and publish your first API](https://learn.microsoft.com/en-us/azure/api-management/import-and-publish)  
+<sub>This tutorial shows how to import an OpenAPI specification backend API in JSON format into Azure API Management. Microsoft provides the backend API used in this example, and hosts it on Azure at https://conferenceapi.azurewebsites.net.</sub>
+
+[Use a virtual network to secure inbound and outbound traffic for Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/virtual-network-concepts?tabs=stv2)  
+<sub>API Management provides several options to secure access to your API Management instance and APIs using an Azure virtual network. API Management supports the following options. Available options depend on the [service tier](https://learn.microsoft.com/en-us/azure/api-management/api-management-features) of your API Management instance.</sub>
+
+#### Azure OpenAI Service
+[Configure Azure AI services virtual networks](https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?tabs=portal)  
+<sub>Azure AI services provide a layered security model. This model enables you to secure your Azure AI services accounts to a specific subset of networks. When network rules are configured, only applications that request data over the specified set of networks can access the account. You can limit access to your resources with request filtering, which allows requests that originate only from specified IP addresses, IP ranges, or from a list of subnets in [Azure Virtual Networks](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview).</sub>
+
+
+#### Tooling
+[Introducing the Secret Variable Type in Postman](https://blog.postman.com/introducing-secret-variable-type-in-postman/)  
+<sub>In Postman, [variables](https://learning.postman.com/docs/sending-requests/variables/) enable you with data reusability and also foster [collaboration](https://blog.postman.com/get-more-out-of-postman-by-collaborating-with-your-team/) when developing and testing API requests. Variables are often used to store sensitive information such as API credentials that are needed in the authentication and authorization of API requests.</sub>
+[Azure API Management extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-apimanagement)  
+<sub>Use the Azure API Management extension to perform common management operations on your Azure API Management service instances without switching away from Visual Studio Code.</sub>
