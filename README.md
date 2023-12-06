@@ -11,9 +11,10 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 ---
 
-###### Preps
+###### Preparations
 [Prerequisites](#prerequisites)  
 [Workflow](#workflow)  
+
 ###### Setting up Azure API Management (APIM) for OpenAI 
 [Setting up API Management and Azure Key Vault integration](#keyvault)  
 [Setting up Azure OpenAI emdpoints as API Management Backend services](#policies)  
@@ -70,7 +71,7 @@ Moreover, all communication between the APIM service and OpenAI services is inte
 > *Managed Identities* are a feature of *Azure Active Directory* that allows Azure resources to authenticate themselves as service principal with other supported Azure resources.
 > This way *Azure API Management* can authenticate itself with *Azure OpenAI* services. **In this method there is no need to store any credentials in the APIM configuration**, e.g no need for OpenAI api-key.
 
-Backends are the API Management representation of the backend services that API Management proxies. this way we can configure the Azure OpenAI services as backends. Each backend configuration will contain refernce to api-key saved in Azure Key Vault
+Backends are the API Management representation of the backend services that API Management proxies. This way we can configure the Azure OpenAI services as backends. Each backend configuration will contain refernce to api-key saved in Azure Key Vault
 
 * [ ] Navigate to API Management service > APIs > Backends > "+Add"
 * [ ] Enter OpenAI service url with the "/openai" suffix, e.g "https://openaitwo.openai.azure.com/openai"
