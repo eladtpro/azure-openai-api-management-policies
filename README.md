@@ -2,7 +2,8 @@
 
 
 <!-- # OpenAI usage management with Azure API Management (APIM) -->
-# How to use Azure API Management (APIM) for usage management of OpenAI services
+<!-- # How to use Azure API Management (APIM) for usage management of OpenAI services -->
+# How to utilize Azure API Management (APIM) for managing the usage of OpenAI services
 This article is provides guidance on addressing concerns around **auditing prompts and responses**, **capacity planning and limitations**, **error handling**, and **retry** capabilities.  
 Additionally, **organizations can increase their usage by creating an OpenAI instance pool** and sharing resources with other consumers. To accomplish all of this and more, we will be utilizing Azure OpenAI services through Azure API Management (APIM).
 
