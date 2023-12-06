@@ -4,8 +4,8 @@
 <!-- # OpenAI usage management with Azure API Management (APIM) -->
 # How to use Azure API Management (APIM) for usage management of OpenAI services
 This article aims to provide guidance for organizations that have concerns when using OpenAI services.  
-These concerns may include addressing auditing prompts and responses, capacity planning and limitations, error handling, and retry capabilities.  
-In addition, organizations can increase their usage by creating an OpenAI instance pool and sharing resources with other consumers.  
+These concerns may include addressing **auditing prompts and responses, capacity planning and limitations, error handling, and retry capabilities**.  
+In addition, **organizations can increase their usage by creating an OpenAI instance pool and sharing resources with other consumers**.  
   
 To achieve all of the above and more, we will be using Azure OpenAI services via Azure API Management (APIM). 
 
@@ -19,14 +19,16 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [Setup: Azure API Management Backend services](#policies)  
 [Setup: Azure API Management API with policies](#policies)  
 [Setup: Azure API Management logging settings](#logging)  
+[Setup: Azure OpenAI service Managed Identity access control](#identity)
+
 ###### Deployment & Testing
 [Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)  
 [Testing with Postman](#postman)  
 [DevOps: API Management configuration deployment](#devops)  
 [API Management configuration git repository](#github)  
 ###### Misc
-[Pricing and cost savings](#pricing)
 [Further reading](#further)
+[Pricing and cost savings](#pricing)
 
 
 ## <a name="workflow"></a>Prerequisites
@@ -38,21 +40,16 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 
 
 ## <a name="workflow"></a> Workflow
-1. Client applications access Azure OpenAI endpoints to perform text generation (completions) and model training (fine-tuning).
-2. Azure Application Gateway provides a single point of entry to Azure OpenAI models and provides load balancing for APIs.
-
-    > Note
-    > Load balancing of stateful operations like model fine-tuning, deployments, and inference of fine-tuned models isn't supported.
-
-
-3. Azure API Management enables security controls and auditing and monitoring of the Azure OpenAI models.
-    a. In API Management, enhanced-security access is granted via Microsoft Entra groups with subscription-based access permissions.
-    b. Auditing is enabled for all interactions with the models via Azure Monitor request logging.
-    c. Monitoring provides detailed Azure OpenAI model usage KPIs and metrics, including prompt information and token statistics for usage traceability.
-
-4. API Management connects to all Azure resources via Azure Private Link. This configuration provides enhanced security for all traffic via private endpoints and contains traffic in the private network.
-
-5. Multiple Azure OpenAI instances enable scale-out of API usage to ensure high availability and disaster recovery for the service.
+1. There are two types of users who will use the OpenAI service: Developers and End Users.  
+Developers need to provide the Azure [API Management Subscription Key](https://learn.microsoft.com/en-us/azure/api-management/api-management-subscriptions). This key will function similarly to the OpenAI API key used by the IDE.  
+End Users, on the other hand, will authenticate themselves through Azure Active Directory (AAD) and access the service with a JWT token.  
+2. Among other security components, the [Azure API Management (APIM)](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) service is protected by [Azure Web Application Firewall on Azure Application Gateway](https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/ag-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [DDOS protection](https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview) and other security components.  
+3. All communication with OpenAI services is managed through the APIM service, which controls access for external users and applications.  
+Incoming requests are subjected to various policies, including rate limiting, JWT validation, tracing, retry, caching, and more.  
+Moreover, all communication between the APIM service and OpenAI services is internal and uses [private endpoints](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview).
+4. The APIM service will use the appropriate authentication method based on the calling party and application type.
+5. APIM will use its own [Managed Identity](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) service principle identity for calls routed to the Azure OpenAI service.
+6. To monitor, track, and receive alerts for OpenAI service usage, we will utilize [Azure Monitor's](https://learn.microsoft.com/en-us/azure/azure-monitor/overview) built-in integration with the APIM service.
 
 ---
 
@@ -141,6 +138,24 @@ For us to be able to collect usage data we need to enable logging for the API Ma
 
 ![APIM Monitoring](assets/diagnostics-logs.png)
 
+
+### <a name="identity"></a>Setup: Azure OpenAI service Managed Identity access control
+> Managed identities for Azure resources is a feature of Azure Active Directory.  
+> It simplifies the management of identities for Azure resources by providing Azure services with an automatically managed identity in Azure Active Directory (Azure AD). You can use the identity to authenticate to any service that supports Azure AD authentication, including Key Vault, without any credentials in your code.
+
+In order to let the API Management service authenticate itself with the Azure OpenAI service, we need to grant the API Management service access to the Azure OpenAI service.
+
+* [ ] Navigate to Azure OpenAI service > Access control (IAM) > "+Add"
+* [ ] Select "Add role assignment"
+* [ ] Select "Cognitive Services OpenAI User" for the Role and press "Next"
+* [ ] Select the "Managed Identity" option as the "Assign access to"
+* [ ] Press "+ Select Members"
+* [ ] Select the API Management service in the Managed Identity select box.
+* [ ] Select the API Management service and press "Select"
+* [ ] Press "Review + assign"
+* [ ] Repeat the process for all the OpenAI services that you want to grant access to.
+
+![OpenAI IAM](assets/openai-iam.png)
 ---
 
 ## Deployment & Testing
@@ -153,13 +168,16 @@ For us to be able to collect usage data we need to enable logging for the API Ma
 
 ```
 ApiManagementGatewayLogs
-| where OperationId == 'post-query' //completions_create'
-| extend model = tostring(parse_json(ResponseBody)['model'])
-| extend prompt_tokens = parse_json(parse_json(ResponseBody)['usage'])['prompt_tokens']
-| extend completion_tokens = parse_json(parse_json(ResponseBody)['usage'])['completion_tokens']
-| extend total_tokens = parse_json(parse_json(ResponseBody)['usage'])['total_tokens']
-| extend request_messages = substring(parse_json(parse_json(BackendRequestBody)['messages'])[0], 0, 100)
-| extend response_choices = substring(parse_json(parse_json(ResponseBody)['choices'])[0], 0, 100)
+| where OperationId == 'post-query' and IsRequestSuccess==true //completions_create'
+| extend response = parse_json(ResponseBody)
+| extend model = tostring(response.model)
+| extend prompt_tokens = response.usage.prompt_tokens
+| extend completion_tokens = response.usage.completion_tokens
+| extend total_tokens = response.usage.total_tokens
+| extend request = parse_json(BackendRequestBody)
+| extend request_messages = substring(request.messages[0], 0, 100)
+| extend response_choices = substring(response.choices[0], 0, 100)
+| project OperationId, model, TotalTime, prompt_tokens, completion_tokens, request_messages, response_choices
 ```
 ##### Output
 
