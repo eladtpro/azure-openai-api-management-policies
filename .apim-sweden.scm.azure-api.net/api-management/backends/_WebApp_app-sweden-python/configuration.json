@@ -1,9 +1,0 @@
-{
-  "id": "/backends/WebApp_app-sweden-python",
-  "title": null,
-  "description": "app-sweden-python",
-  "url": "https://app-sweden-python.azurewebsites.net",
-  "protocol": "http",
-  "resourceId": "https://management.azure.com/subscriptions/977171a9-6bfd-49c4-a496-018d3312466e/resourceGroups/azure-apim/providers/Microsoft.Web/sites/app-sweden-python",
-  "__GitModuleVersion": 17
-}

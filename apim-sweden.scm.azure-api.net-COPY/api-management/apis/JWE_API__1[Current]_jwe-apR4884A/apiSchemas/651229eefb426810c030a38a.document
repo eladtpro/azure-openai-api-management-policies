@@ -1,0 +1,13 @@
+{
+  "definitions": {
+    "JWETokenGeneratorGet200ApplicationTextResponse": {
+      "type": "string"
+    },
+    "Body": {
+      "type": "string"
+    },
+    "JWETokenValidatorPost200ApplicationJsonResponse": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "/products/contoso",
+  "name": "Contoso",
+  "$ref-description": "api-management/products/Contoso/product.description.html",
+  "terms": null,
+  "subscriptionRequired": true,
+  "approvalRequired": false,
+  "subscriptionsLimit": null,
+  "state": "published",
+  "$refs-groups": [
+    "api-management/groups/Administrators/configuration.json",
+    "api-management/groups/Developers/configuration.json"
+  ],
+  "$refs-apis": [
+    "api-management/apis/Demo_Conference_API__1[Cu163TV2X/configuration.json",
+    "api-management/apis/JWE_API__1[Current]_jwe-apR4884A/configuration.json",
+    "api-management/apis/Open_AI__1[Current]_open-166H7PW/configuration.json"
+  ],
+  "__GitModuleVersion": 17
+}

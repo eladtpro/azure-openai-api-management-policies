@@ -1,0 +1,22 @@
+{
+  "id": "/backends/openaifour",
+  "title": null,
+  "url": "https://openaifour-uk.openai.azure.com/openai",
+  "protocol": "http",
+  "credentials": {
+    "query": {},
+    "header": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "api-key": [
+        "{{OpenAI-Key4}}"
+      ]
+    }
+  },
+  "tls": {
+    "validateCertificateChain": false,
+    "validateCertificateName": false
+  },
+  "__GitModuleVersion": 17
+}

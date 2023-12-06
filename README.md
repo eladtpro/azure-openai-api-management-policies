@@ -28,8 +28,6 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [API Management configuration git repository](#github)  
 ###### Misc
 [Further reading](#further)
-[Pricing and cost savings](#pricing)
-
 
 ## <a name="workflow"></a>Prerequisites
 * If you don't have an [Azure subscription](https://learn.microsoft.com/en-us/azure/guides/developer/azure-developer-guide#understanding-accounts-subscriptions-and-billing), create an [Azure free account](https://azure.microsoft.com/free/?ref=microsoft.com&utm_source=microsoft.com&utm_medium=docs&utm_campaign=visualstudio) before you begin.  
@@ -82,6 +80,8 @@ Backends are the API Management representation of the backend services that API 
 ![Backends](assets/backends.png) 
 
 ### <a name="policies"></a>Setup: Azure API Management policies  
+###### Policy definitions used in this guide can be found in [policies](/policies) folder.
+
 
 > For the API to be flexable for any URL path route, we are setting the Frontend URL to be a `/{*path}` like so.
 > ![APIM Frontend URL](assets/frontend-wildcard.png)
@@ -174,32 +174,61 @@ ApiManagementGatewayLogs
 | extend prompt_tokens = response.usage.prompt_tokens
 | extend completion_tokens = response.usage.completion_tokens
 | extend total_tokens = response.usage.total_tokens
+| extend cost_prompt = case(
+    model == "gpt-35-turbo", 0.0015, 
+    model == "gpt-4", 0.03, 
+    0.00)
+| extend cost_completion = case(
+    model == "gpt-35-turbo", 0.002, 
+    model == "gpt-4", 0.06, 
+    0.00)
+| extend total_cost = (prompt_tokens*cost_prompt)+(completion_tokens*cost_completion)
+| extend subscription_id = response.subscription_id
+| extend subscription_name = response.subscription_name
 | extend request = parse_json(BackendRequestBody)
 | extend request_messages = substring(request.messages[0], 0, 100)
 | extend response_choices = substring(response.choices[0], 0, 100)
-| project OperationId, model, TotalTime, prompt_tokens, completion_tokens, request_messages, response_choices
+| project OperationId, model, TotalTime, //BackendTime, 
+prompt_tokens, completion_tokens, total_tokens, total_cost, ApimSubscriptionId, BackendId, BackendUrl, request_messages, response_choices
 ```
 ##### Output
 
-![Prompt Details](assets/prompt-details.png)
+![Prompt Details](assets/kql-usage.png)
 
 #### Query usage analytics
 
 ```
 ApiManagementGatewayLogs
-| where OperationId == 'post-query' //completions_create'
+| where OperationId == 'post-query' and IsRequestSuccess==true //completions_create'
 | extend response = parse_json(ResponseBody)
 | extend model = tostring(response.model)
-| extend user = tostring(response.subcription.Subscription.id)
+| extend user = ApimSubscriptionId
 | extend prompt_tokens = toint(response.usage.prompt_tokens)
 | extend completion_tokens = toint(response.usage.completion_tokens)
 | extend total_tokens = toint(response.usage.total_tokens)
-| summarize total_duration = sum(TotalTime), total_prompt_tokens = sum(prompt_tokens), total_completion_tokens = sum(completion_tokens), total_all_tokens = sum(total_tokens)
+| extend cost_prompt = case(
+    model == "gpt-35-turbo", 0.0015, 
+    model == "gpt-4", 0.03, 
+    0.00)
+| extend cost_completion = case(
+    model == "gpt-35-turbo", 0.002, 
+    model == "gpt-4", 0.06, 
+    0.00)
+| extend total_cost = (prompt_tokens*cost_prompt)+(completion_tokens*cost_completion)
+| summarize 
+    total_duration = sum(TotalTime), 
+    total_prompt_tokens = sum(prompt_tokens), 
+    total_completion_tokens = sum(completion_tokens), 
+    total_all_tokens = sum(total_tokens),
+    total_all_cost = sum(total_cost)
     by model
 | render piechart 
 ```
+##### Output
 
 ![Usage Analytics](assets/kql-analytics.png)
+
+![Usage Analytics](assets/kql-analytics-pie.png)
 
 ### <a name="postman"></a>Testing with Postman
 

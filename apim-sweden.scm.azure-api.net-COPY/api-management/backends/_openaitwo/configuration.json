@@ -1,0 +1,22 @@
+{
+  "id": "/backends/openaitwo",
+  "title": null,
+  "url": "https://openaitwo2.openai.azure.com/openai",
+  "protocol": "http",
+  "credentials": {
+    "query": {},
+    "header": {
+      "api-key": [
+        "{{OpenAI-Key2}}"
+      ],
+      "Content-Type": [
+        "application/json"
+      ]
+    }
+  },
+  "tls": {
+    "validateCertificateChain": false,
+    "validateCertificateName": false
+  },
+  "__GitModuleVersion": 17
+}

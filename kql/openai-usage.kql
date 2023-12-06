@@ -1,0 +1,23 @@
+ApiManagementGatewayLogs
+| where OperationId == 'post-query' and IsRequestSuccess==true //completions_create'
+| extend response = parse_json(ResponseBody)
+| extend model = tostring(response.model)
+| extend prompt_tokens = response.usage.prompt_tokens
+| extend completion_tokens = response.usage.completion_tokens
+| extend total_tokens = response.usage.total_tokens
+| extend cost_prompt = case(
+    model == "gpt-35-turbo", 0.0015, 
+    model == "gpt-4", 0.03, 
+    0.00)
+| extend cost_completion = case(
+    model == "gpt-35-turbo", 0.002, 
+    model == "gpt-4", 0.06, 
+    0.00)
+| extend total_cost = (prompt_tokens*cost_prompt)+(completion_tokens*cost_completion)
+| extend subscription_id = response.subscription_id
+| extend subscription_name = response.subscription_name
+| extend request = parse_json(BackendRequestBody)
+| extend request_messages = substring(request.messages[0], 0, 100)
+| extend response_choices = substring(response.choices[0], 0, 100)
+| project OperationId, model, TotalTime, //BackendTime, 
+prompt_tokens, completion_tokens, total_tokens, total_cost, ApimSubscriptionId, BackendId, BackendUrl, request_messages, response_choices
