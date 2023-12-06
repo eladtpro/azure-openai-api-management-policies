@@ -1,3 +1,4 @@
+![Flow](assets/OpenAI.Restrict-Round-Robin.png)
 # Optimizing OpenAI Services with Azure API Management (APIM): Tips for Auditing, Capacity Planning, and Resource Management
 This article is provides guidance on addressing concerns around **auditing prompts and responses**, **capacity planning and limitations**, **error handling**, and **retry** capabilities.  
 Additionally, **organizations can increase their usage by creating an OpenAI instance pool** and sharing resources with other consumers. To accomplish all of this and more, we will be utilizing OpenAI services through Azure API Management (APIM).
