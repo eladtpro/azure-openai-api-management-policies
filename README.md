@@ -351,5 +351,6 @@ git checkout <branch_name>
 #### Tooling
 [Introducing the Secret Variable Type in Postman](https://blog.postman.com/introducing-secret-variable-type-in-postman/)  
 <sub>In Postman, [variables](https://learning.postman.com/docs/sending-requests/variables/) enable you with data reusability and also foster [collaboration](https://blog.postman.com/get-more-out-of-postman-by-collaborating-with-your-team/) when developing and testing API requests. Variables are often used to store sensitive information such as API credentials that are needed in the authentication and authorization of API requests.</sub>
+
 [Azure API Management extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-apimanagement)  
 <sub>Use the Azure API Management extension to perform common management operations on your Azure API Management service instances without switching away from Visual Studio Code.</sub>
