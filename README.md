@@ -1,11 +1,6 @@
-![Flow](assets/OpenAI.Restrict-Round-Robin.png)
-
-
-<!-- # OpenAI usage management with Azure API Management (APIM) -->
-<!-- # How to use Azure API Management (APIM) for usage management of OpenAI services -->
-# How to utilize Azure API Management (APIM) for managing the usage of OpenAI services
+# Optimizing OpenAI Services with Azure API Management (APIM): Tips for Auditing, Capacity Planning, and Resource Management
 This article is provides guidance on addressing concerns around **auditing prompts and responses**, **capacity planning and limitations**, **error handling**, and **retry** capabilities.  
-Additionally, **organizations can increase their usage by creating an OpenAI instance pool** and sharing resources with other consumers. To accomplish all of this and more, we will be utilizing Azure OpenAI services through Azure API Management (APIM).
+Additionally, **organizations can increase their usage by creating an OpenAI instance pool** and sharing resources with other consumers. To accomplish all of this and more, we will be utilizing OpenAI services through Azure API Management (APIM).
 
 ---
 
@@ -37,6 +32,9 @@ Additionally, **organizations can increase their usage by creating an OpenAI ins
 
 
 ## <a name="workflow"></a> Workflow
+
+![Flow](assets/OpenAI.Restrict-Round-Robin.png)
+
 1. There are two types of users who will use the OpenAI service: Developers and End Users.  
 Developers need to provide the Azure [API Management Subscription Key](https://learn.microsoft.com/en-us/azure/api-management/api-management-subscriptions). This key will function similarly to the OpenAI API key used by the IDE.  
 End Users, on the other hand, will authenticate themselves through Azure Active Directory (AAD) and access the service with a JWT token.  
