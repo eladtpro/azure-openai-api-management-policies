@@ -24,8 +24,8 @@ Additionally, **organizations can increase their usage by creating an OpenAI ins
 [Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)  
 [Testing with Postman](#postman)  
 [DevOps: API Management configuration deployment](#devops)  
-[API Management configuration git repository](#github)  
-###### Misc
+
+###### Miscellanious
 [Further reading](#further)
 
 ## <a name="workflow"></a>Prerequisites
@@ -255,32 +255,6 @@ You can import the configuration from [/postman/azure-open-ai.postman_collection
 | Ocp-Apim-Subscription-Key |  [API-KEY] | By publishing APIs through API Management, you can easily secure API access using subscription keys. Users who need to consume the published APIs must include a valid subscription key in HTTP requests when calling those APIs. |
 | Ocp-Apim-Trace |    true   |   The [Trace policy](https://learn.microsoft.com/en-us/azure/api-management/trace-policy) adds a custom trace to the request tracing output in the test console when tracing is triggered, that is, Ocp-Apim-Trace request header is present and set to true and Ocp-Apim-Subscription-Key request header is present and holds a valid key that allows tracing. |
 | Content-Type | application/json |    OpenAI service expect this header to be presence and contain a json content |
-
-
-### <a name="github"></a>API Management configuration git repository
-
-In this repository you will find the following files:
-[apim-sweden.scm.azure-api.net](apim-sweden.scm.azure-api.net) sub-module contains the API Management configuration files.
-
-
-APIM configuration files are stored in the [apim-sweden.scm.azure-api.net](apim-sweden.scm.azure-api.net) sub-module.
-
-
-in the image that describes the repository structure, we can see it corresponds to the apim entities:  
-apis, backends, products, policies, etc.
-
-![APIM Config](assets/APIM-repo-config.png)
-
-
-
-
-
-
-
-
-
-
-
 
 ### DevOps: API Management configuration deployment 
 
