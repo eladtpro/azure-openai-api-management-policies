@@ -15,11 +15,11 @@ To achieve all of the above and more, we will be using Azure OpenAI services via
 [Prerequisites](#prerequisites)  
 [Workflow](#workflow)  
 ###### Setting up Azure API Management (APIM) for OpenAI 
-[Setup: Azure API Management Key Vault integration](#keyvault)  
-[Setup: Azure API Management Backend services](#policies)  
-[Setup: Azure API Management API with policies](#policies)  
-[Setup: Azure API Management logging settings](#logging)  
-[Setup: Azure OpenAI service Managed Identity access control](#identity)
+[Setting up API Management and Azure Key Vault integration](#keyvault)  
+[Setting up Azure OpenAI emdpoints as API Management Backend services](#policies)  
+[Setting up API Management policies for Azure OpenAI services](#policies)  
+[Setting API Management logs to Azure Monitor](#logging)  
+[Assigning API Management Managed Identity access on Azure OpenAI service](#identity)
 
 ###### Deployment & Testing
 [Azure Data Explorer (ADX): Run KQL Queries to extract usage details](#kql)  
@@ -54,7 +54,7 @@ Moreover, all communication between the APIM service and OpenAI services is inte
 ## Setting up Azure API Management (APIM) for OpenAI
 >  [Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) is a hybrid, multicloud management platform for APIs across all environments. As a platform-as-a-service, API Management supports the complete API lifecycle.  
 
-### <a name="keyvault"></a>Setup: Azure API Management Key Vault integration
+### <a name="keyvault"></a>Setting up API Management and Azure Key Vault integration
 
 * [ ] If no Key Vault exists, create a new API management integrated Key Vault:  
 [Use managed identities in Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-use-managed-service-identity)
@@ -66,7 +66,7 @@ Moreover, all communication between the APIM service and OpenAI services is inte
 
 ![APIM Key Vault](assets/apim-key-vault-integration.png)
 
-### <a name="backend"></a>Setup: Azure API Management Backend services
+### <a name="backend"></a>Setting up Azure OpenAI emdpoints as API Management Backend services
 > *Managed Identities* are a feature of *Azure Active Directory* that allows Azure resources to authenticate themselves as service principal with other supported Azure resources.
 > This way *Azure API Management* can authenticate itself with *Azure OpenAI* services. **In this method there is no need to store any credentials in the APIM configuration**, e.g no need for OpenAI api-key.
 
@@ -79,7 +79,7 @@ Backends are the API Management representation of the backend services that API 
 
 ![Backends](assets/backends.png) 
 
-### <a name="policies"></a>Setup: Azure API Management policies  
+### <a name="policies"></a>Setting up API Management policies for Azure OpenAI services  
 ###### Policy definitions used in this guide can be found in [policies](/policies) folder.
 
 
@@ -127,7 +127,7 @@ Other policies are available out of the box. Policies are applied inside the gat
 
 
 
-### <a name="logging"></a>Setup: Azure API Management logging settings
+### <a name="logging"></a>Setting API Management logs to Azure Monitor
 For us to be able to collect usage data we need to enable logging for the API Management service.
 
 * [ ] Navigate to API Management service > APIs > Your API > Settings
@@ -139,7 +139,7 @@ For us to be able to collect usage data we need to enable logging for the API Ma
 ![APIM Monitoring](assets/diagnostics-logs.png)
 
 
-### <a name="identity"></a>Setup: Azure OpenAI service Managed Identity access control
+### <a name="identity"></a>Assigning API Management Managed Identity access on Azure OpenAI service
 > Managed identities for Azure resources is a feature of Azure Active Directory.  
 > It simplifies the management of identities for Azure resources by providing Azure services with an automatically managed identity in Azure Active Directory (Azure AD). You can use the identity to authenticate to any service that supports Azure AD authentication, including Key Vault, without any credentials in your code.
 
