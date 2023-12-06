@@ -1,0 +1,78 @@
+<policies>
+	<inbound>
+		<base />
+		<set-backend-service base-url="https://app-sweden-python.azurewebsites.net/api" />
+		<choose>
+			<when condition="@(context.Request.Headers.ContainsKey("Authorization"))">
+				<!-- Header exists, continue with normal flow -->
+				<validate-jwt header-name="Authorization" require-scheme="Bearer" output-token-variable-name="jwt">
+					<openid-config url="https://login.microsoftonline.com/f18fae10-4c6c-478d-9080-f39bbac3041c/v2.0/.well-known/openid-configuration" />
+					<required-claims>
+						<claim name="aud">
+							<value>abe1a9c5-59a2-4255-8adc-9a78b2477cda</value>
+						</claim>
+					</required-claims>
+				</validate-jwt>
+			</when>
+			<otherwise>
+				<!-- Header is missing, return an error response -->
+				<return-response>
+					<set-status code="302" reason="Found" />
+					<set-header name="Location" exists-action="override">
+						<value>https%3A%2F%2Flogin.windows.net%2Ff18fae10-4c6c-478d-9080-f39bbac3041c%2Foauth2%2Fv2.0%2Fauthorize%3Fresponse_type%3Dcode%2Bid_token%26redirect_uri%3Dhttps%3A%2F%2Fapim-sweden.azure-api.net%2F.auth%2Flogin%2Faad%2Fcallback%26client_id%3Dabe1a9c5-59a2-4255-8adc-9a78b2477cda%26scope%3Dopenid%2Bprofile%2Bemail%26response_mode%3Dform_post%26nonce%3Dbde81ad8eb65413fa25d5cdc40f09ab5_20230605111852%26state%3Dredir%3D%2F</value>
+					</set-header>
+				</return-response>
+			</otherwise>
+		</choose>
+		<!--
+        https://apim-sweden.azure-api.net/api
+        https://login.windows.net/f18fae10-4c6c-478d-9080-f39bbac3041c/oauth2/v2.0/authorize?response_type=code+id_token&redirect_uri=https%3A%2F%2Fapp-sweden-python.azurewebsites.net%2F.auth%2Flogin%2Faad%2Fcallback&client_id=abe1a9c5-59a2-4255-8adc-9a78b2477cda&scope=openid+profile+email&response_mode=form_post&nonce=bde81ad8eb65413fa25d5cdc40f09ab5_20230605111852&state=redir%3D%252F
+        https://login.windows.net/f18fae10-4c6c-478d-9080-f39bbac3041c/oauth2/v2.0/authorize?response_type=code+id_token&redirect_uri=https://app-sweden-python.azurewebsites.net/.auth/login/aad/callback&client_id=abe1a9c5-59a2-4255-8adc-9a78b2477cda&scope=openid+profile+email&response_mode=form_post&nonce=bde81ad8eb65413fa25d5cdc40f09ab5_20230605111852&state=redir=/
+        -->
+		<!--
+        
+        <choose>
+            <when condition="@(context.Request.Method == "GET" && !((Jwt)context.Variables["jwt"]).Claims["group"].Contains("finance"))">
+                <return-response>
+                    <set-status code="302" reason="Found" />
+                    <set-header name="Location" exists-action="override">
+                        <value>https%3A%2F%2Flogin.windows.net%2Ff18fae10-4c6c-478d-9080-f39bbac3041c%2Foauth2%2Fv2.0%2Fauthorize%3Fresponse_type%3Dcode%2Bid_token%26redirect_uri%3Dhttps%3A%2F%2Fapim-sweden.azure-api.net%2F.auth%2Flogin%2Faad%2Fcallback%26client_id%3Dabe1a9c5-59a2-4255-8adc-9a78b2477cda%26scope%3Dopenid%2Bprofile%2Bemail%26response_mode%3Dform_post%26nonce%3Dbde81ad8eb65413fa25d5cdc40f09ab5_20230605111852%26state%3Dredir%3D%2F</value>
+                    </set-header>
+                </return-response>
+            </when>
+        </choose>
+
+        <validate-azure-ad-token tenant-id="f18fae10-4c6c-478d-9080-f39bbac3041c">
+            <client-application-ids>
+                <application-id>abe1a9c5-59a2-4255-8adc-9a78b2477cda</application-id>
+            </client-application-ids>
+        </validate-azure-ad-token>        
+        
+        <validate-jwt header-name="Authorization" require-scheme="Bearer" output-token-variable-name="jwt">
+            <issuer-signing-keys>
+                <key>{{jwt-signing-key}}</key>
+            </issuer-signing-keys>
+            <audiences>
+                <audience>@(context.Request.OriginalUrl.Host)</audience>
+            </audiences>
+            <issuers>
+                <issuer>contoso.com</issuer>
+            </issuers>
+            <required-claims>
+                <claim name="group" match="any">
+                    <value>finance</value>
+                    <value>logistics</value>
+                </claim>
+            </required-claims>
+        </validate-jwt>-->
+	</inbound>
+	<backend>
+		<base />
+	</backend>
+	<outbound>
+		<base />
+	</outbound>
+	<on-error>
+		<base />
+	</on-error>
+</policies>

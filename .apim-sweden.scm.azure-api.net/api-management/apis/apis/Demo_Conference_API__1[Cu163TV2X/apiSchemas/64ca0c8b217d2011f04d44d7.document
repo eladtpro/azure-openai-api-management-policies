@@ -1,0 +1,7 @@
+{
+  "definitions": {
+    "Body": {
+      "type": "string"
+    }
+  }
+}
