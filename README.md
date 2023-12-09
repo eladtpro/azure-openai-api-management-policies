@@ -38,7 +38,7 @@ Additionally, **organizations can increase their usage by creating an OpenAI ins
 
 1. There are two types of users who will use the OpenAI service: Developers and End Users.  
 Developers need to provide the Azure [API Management Subscription Key](https://learn.microsoft.com/en-us/azure/api-management/api-management-subscriptions). This key will function similarly to the OpenAI API key used by the IDE.  
-End Users, on the other hand, will authenticate themselves through Azure Active Directory (AAD) and access the service with a JWT token.  
+End Users, on the other hand, will authenticate themselves through [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) and access the service with a JWT token.  
 2. Among other security components, the [Azure API Management (APIM)](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) service is protected by [Azure Web Application Firewall on Azure Application Gateway](https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/ag-overview), [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/overview), [DDOS protection](https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview) and other security components.  
 3. All communication with OpenAI services is managed through the APIM service, which controls access for external users and applications.  
 Incoming requests are subjected to various policies, including rate limiting, JWT validation, tracing, retry, caching, and more.  
@@ -65,7 +65,7 @@ Moreover, all communication between the APIM service and OpenAI services is inte
 ![APIM Key Vault](assets/apim-key-vault-integration.png)
 
 ### <a name="backend"></a>Setting up Azure OpenAI emdpoints as API Management Backend services
-> *Managed Identities* are a feature of *Azure Active Directory* that allows Azure resources to authenticate themselves as service principal with other supported Azure resources.
+> *Managed Identities* are a feature of *Microsoft Entra ID* that allows Azure resources to authenticate themselves as service principal with other supported Azure resources.
 > This way *Azure API Management* can authenticate itself with *Azure OpenAI* services. **In this method there is no need to store any credentials in the APIM configuration**, e.g no need for OpenAI api-key.
 
 Backends are the API Management representation of the backend services that API Management proxies. This way we can configure the Azure OpenAI services as backends. Each backend configuration will contain refernce to api-key saved in Azure Key Vault
@@ -138,8 +138,8 @@ For us to be able to collect usage data we need to enable logging for the API Ma
 
 
 ### <a name="identity"></a>Assigning API Management Managed Identity access on Azure OpenAI service
-> Managed identities for Azure resources is a feature of Azure Active Directory.  
-> It simplifies the management of identities for Azure resources by providing Azure services with an automatically managed identity in Azure Active Directory (Azure AD). You can use the identity to authenticate to any service that supports Azure AD authentication, including Key Vault, without any credentials in your code.
+> Managed identities for Azure resources is a feature of Microsoft Entra ID.  
+> It simplifies the management of identities for Azure resources by providing Azure services with an automatically managed identity in Microsoft Entra ID. You can use the identity to authenticate to any service that supports Azure AD authentication, including Key Vault, without any credentials in your code.
 
 In order to let the API Management service authenticate itself with the Azure OpenAI service, we need to grant the API Management service access to the Azure OpenAI service.
 
